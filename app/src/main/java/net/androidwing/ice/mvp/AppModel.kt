@@ -15,6 +15,7 @@ class AppModel : AppContract.Model {
     //已安装程序列表
     val packageList = pm.getInstalledPackages(0)
     val appList = ArrayList<AppInfo>()
+
     //用户安装应用
     packageList.filterNot { (it.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) > 0 }
         .mapTo(appList) {
