@@ -2,6 +2,7 @@ package net.androidwing.ice
 
 import android.content.Context
 import java.io.DataOutputStream
+import java.io.File
 
 
 /**
@@ -9,12 +10,13 @@ import java.io.DataOutputStream
  */
 object Ice {
   fun disable(packageName: String) {
-    var cmd = "pm disable $packageName"
+    val cmd = "pm disable $packageName"
+
     runSuCmd(cmd)
   }
 
   fun enable(packageName: String) {
-    var cmd = "pm enable $packageName"
+    val cmd = "pm enable $packageName"
     runSuCmd(cmd)
   }
 
@@ -28,8 +30,9 @@ object Ice {
       os.writeBytes("exit\n")
       os.flush()
       process.waitFor()
+//      return true
     } catch (e: Exception) {
-      // return false;
+//      return false
     } finally {
       try {
         if (os != null) {
@@ -41,5 +44,30 @@ object Ice {
 
     }
 
+  }
+
+  @Synchronized fun getRootAhth(): Boolean {
+    var process: Process? = null
+    var os: DataOutputStream? = null
+    try {
+      process = Runtime.getRuntime().exec("su")
+      os = DataOutputStream(process!!.outputStream)
+      os.writeBytes("exit\n")
+      os.flush()
+      val exitValue = process.waitFor()
+      return exitValue == 0
+    } catch (e: Exception) {
+      return false
+    } finally {
+      try {
+        if (os != null) {
+          os.close()
+        }
+        process!!.destroy()
+      } catch (e: Exception) {
+        e.printStackTrace()
+      }
+
+    }
   }
 }

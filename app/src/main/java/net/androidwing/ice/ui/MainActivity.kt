@@ -25,15 +25,22 @@ class MainActivity : AppCompatActivity(), AppContract.View {
     mAdapter.setOnItemClickListener { view, pos ->
 
       val appInfo = apps[pos]
-      if(appInfo.packageName == "net.androidwing.ice"){
-        Toast.makeText(this,"老大，冻了我你怎么给他们解冻啊~~",0).show()
+      if (appInfo.packageName == "net.androidwing.ice") {
+        Toast.makeText(this, "老大，冻了我你怎么给他们解冻啊~~", 0).show()
         return@setOnItemClickListener
       }
       if (appInfo.enable) {
         Ice.disable(appInfo.packageName)
+
       } else {
         Ice.enable(appInfo.packageName)
       }
+
+      if(Ice.getRootAhth().not()){
+        Toast.makeText(this,"获取root权限失败",0).show()
+        return@setOnItemClickListener
+      }
+
       appInfo.enable = appInfo.enable.not()
       mAdapter.notifyDataSetChanged()
     }
