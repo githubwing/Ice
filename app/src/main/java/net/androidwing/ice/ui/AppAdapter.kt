@@ -15,7 +15,7 @@ import net.androidwing.ice.bean.AppInfo
  */
 class AppAdapter(private var mList: List<AppInfo>) : RecyclerView.Adapter<AppAdapter.ViewHolder>() {
   private var mListener: ((view: View, pos: Int) -> Unit)? = null
-
+  private var mLongClickListener:((view: View, pos: Int) -> Unit)? = null
   override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
 
     return ViewHolder(
@@ -45,6 +45,14 @@ class AppAdapter(private var mList: List<AppInfo>) : RecyclerView.Adapter<AppAda
       }
     }
 
+    holder?.itemView?.setOnLongClickListener {
+      if(mLongClickListener != null){
+        mLongClickListener?.invoke(holder.itemView!!,position)
+
+      }
+      true
+    }
+
   }
 
   class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -54,5 +62,10 @@ class AppAdapter(private var mList: List<AppInfo>) : RecyclerView.Adapter<AppAda
 
   fun setOnItemClickListener(listener: ((view: View, pos: Int) -> Unit)) {
     mListener = listener
+  }
+
+
+  fun setOnLongItemClickListener(listener: ((view: View, pos: Int) -> Unit)) {
+    mLongClickListener = listener
   }
 }

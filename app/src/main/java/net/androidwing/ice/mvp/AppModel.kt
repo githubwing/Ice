@@ -1,6 +1,7 @@
 package net.androidwing.ice.mvp
 
 import android.content.pm.ApplicationInfo
+import android.util.Log
 import net.androidwing.ice.App
 import net.androidwing.ice.bean.AppInfo
 import java.util.*
@@ -17,6 +18,7 @@ class AppModel : AppContract.Model {
     //用户安装应用
     packageList.filterNot { (it.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) > 0 }
         .mapTo(appList) {
+
           AppInfo(it.applicationInfo.loadLabel(pm) as String,
               it.packageName, it.applicationInfo.loadIcon(pm), it.applicationInfo.enabled)
         }
