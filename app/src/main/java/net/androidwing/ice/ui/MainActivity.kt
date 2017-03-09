@@ -63,7 +63,11 @@ class MainActivity : AppCompatActivity(), AppContract.View {
         Toast.makeText(this, "获取root权限失败", 0).show()
         return@setOnLongItemClickListener
       }
+      startApp(appInfo)
 
+
+      appInfo.enable = true
+      mAdapter.notifyDataSetChanged()
 
     }
   }
@@ -72,10 +76,11 @@ class MainActivity : AppCompatActivity(), AppContract.View {
    * 转跳至app
    */
   private fun startApp(appInfo: AppInfo) {
-    val i = Intent(Intent.ACTION_MAIN)
-    i.component = ComponentName(appInfo.packageName, appInfo.packageName + ".MainActivity")
-    i.addCategory(Intent.CATEGORY_LAUNCHER)
-    startActivity(i)
+    val intent = Intent(Intent.ACTION_MAIN)
+    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    intent.component = ComponentName(appInfo.packageName, appInfo.mainClass)
+    intent.addCategory(Intent.CATEGORY_LAUNCHER)
+    startActivity(intent)
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {

@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 data class AppInfo(
     val appName: String,
     val packageName: String,
+    val mainClass:String,
     val appIcon: Drawable,
     var enable: Boolean
 )
